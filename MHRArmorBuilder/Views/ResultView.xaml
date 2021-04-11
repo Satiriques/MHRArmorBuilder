@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="MHRArmorBuilder.Views.ResultView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MHRArmorBuilder.Views"
+             xmlns:vm="clr-namespace:MHRArmorBuilder.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=vm:ResultViewModel, IsDesignTimeCreatable=True}">
+    <GroupBox>
+        <Grid>
+            <ListBox ItemsSource="{Binding ArmorSets}" Grid.IsSharedSizeScope="True">
+                <ListBox.Resources>
+                    <ResourceDictionary>
+                        <DataTemplate DataType="{x:Type vm:ArmorSetViewModel}">
+                            <DockPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="A"/>
+                                        <ColumnDefinition SharedSizeGroup="B"/>
+                                        <ColumnDefinition SharedSizeGroup="C"/>
+                                        <ColumnDefinition SharedSizeGroup="D"/>
+                                        <ColumnDefinition SharedSizeGroup="E"/>
+                                        <ColumnDefinition SharedSizeGroup="F"/>
+                                        <ColumnDefinition SharedSizeGroup="G"/>
+                                    </Grid.ColumnDefinitions>
+                                    <GroupBox Margin="2">
+                                        <TextBlock Text="{Binding Head.PartName}" />
+                                    </GroupBox>
+                                    <GroupBox Grid.Column="1" Margin="2">
+                                        <TextBlock Text="{Binding Torso.PartName}" />
+                                    </GroupBox>
+                                    <GroupBox Grid.Column="2" Margin="2">
+                                        <TextBlock Text="{Binding Arms.PartName}" />
+                                    </GroupBox>
+                                    <GroupBox Grid.Column="3" Margin="2">
+                                        <TextBlock Text="{Binding Waist.PartName}" />
+                                    </GroupBox>
+                                    <GroupBox Grid.Column="4" Margin="2">
+                                        <TextBlock Text="{Binding Legs.PartName}" />
+                                    </GroupBox>
+                                    <GroupBox Grid.Column="5"  Margin="2">
+                                        <TextBlock Text="{Binding RarityMin}"/>
+                                    </GroupBox>
+                                    <GroupBox Grid.Column="6"  Margin="2">
+                                        <TextBlock Text="{Binding RarityMax}"/>
+                                    </GroupBox>
+                                </Grid>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ResourceDictionary>
+                </ListBox.Resources>
+            </ListBox>
+        </Grid>
+    </GroupBox>
+</UserControl>

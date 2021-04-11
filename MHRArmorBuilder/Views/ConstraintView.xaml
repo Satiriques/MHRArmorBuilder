@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="MHRArmorBuilder.Views.ConstraintView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MHRArmorBuilder.Views"
+             xmlns:adonisui="clr-namespace:AdonisUI;assembly=AdonisUI"
+             mc:Ignorable="d"
+             xmlns:vm="clr-namespace:MHRArmorBuilder.ViewModels"
+             xmlns:extensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+             xmlns:converters="clr-namespace:MHRArmorBuilder.Converters"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=vm:ConstraintViewModel, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:StringToIntConverter x:Key="StringToIntConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <GroupBox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- Constraints -->
+                <RowDefinition Height="*" />
+                <!-- Search Button -->
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <!-- Added constraints -->
+                    <RowDefinition Height="*" />
+                    <!-- Constraints to add -->
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ItemsControl ItemsSource="{Binding AddedConstraints}"
+                              Margin="{adonisui:Space 1}">
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Background="{TemplateBinding Background}">
+                                <ScrollViewer CanContentScroll="True"
+                                              Padding="{TemplateBinding Padding}"
+                                              Focusable="False">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsVirtualizing="True"
+                                                    VirtualizationMode="Recycling" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.Resources>
+                        <ResourceDictionary>
+                            <DataTemplate DataType="{x:Type vm:ConstraintMinMax}">
+                                <GroupBox Padding="1" Margin="0,2,0,0">
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Margin="4,0,0,0"
+                                                   Text="{Binding DisplayString}" />
+                                        <Button DockPanel.Dock="Right"
+                                                Content="X"
+                                                Margin="2"
+                                                Command="{Binding DeleteCommand}" 
+                                                CommandParameter="{Binding}" />
+                                        <TextBox PreviewTextInput="UIElement_OnPreviewTextInput"
+                                                 DockPanel.Dock="Right"
+                                                 HorizontalAlignment="Right"
+                                                 extensions:WatermarkExtension.Watermark="MAX"
+                                                 Text="{Binding Max, Converter={StaticResource StringToIntConverter}}"
+                                                 Margin="2,2,0,2" Width="50" />
+                                        <TextBox PreviewTextInput="UIElement_OnPreviewTextInput"
+                                                 DockPanel.Dock="Right"
+                                                 HorizontalAlignment="Right"
+                                                 Text="{Binding Min, Converter={StaticResource StringToIntConverter}}"
+                                                 extensions:WatermarkExtension.Watermark="MIN"
+                                                 Margin="2,2,0,2" Width="50" />
+                                    </DockPanel>
+                                </GroupBox>
+                            </DataTemplate>
+                        </ResourceDictionary>
+                    </ItemsControl.Resources>
+                </ItemsControl>
+
+                <ComboBox Grid.Row="1"
+                          x:Name="ComboBox"
+                          Margin="{adonisui:Space 1}"
+                          HorizontalContentAlignment="Center"
+                          IsTextSearchEnabled="True"
+                          IsTextSearchCaseSensitive="False"
+                          ItemsSource="{Binding Constraints}"
+                          DisplayMemberPath="DisplayString"
+                          MaxDropDownHeight="200"
+                          SelectedIndex="{Binding ConstraintIndex}"
+                          SelectedItem="{Binding SelectedConstraint, Mode=TwoWay}" />
+            </Grid>
+
+            <Button Grid.Row="1" Content="Search"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{Binding SearchCommand}" />
+        </Grid>
+    </GroupBox>
+</UserControl>

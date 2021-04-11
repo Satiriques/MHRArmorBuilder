@@ -1,0 +1,36 @@
+﻿<adonisControls:AdonisWindow x:Class="MHRArmorBuilder.Views.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:local="clr-namespace:MHRArmorBuilder"
+                             xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+                             mc:Ignorable="d"
+                             Title="MainWindow" Height="450" Width="800"
+                             xmlns:vm="clr-namespace:MHRArmorBuilder.ViewModels"
+                             xmlns:views="clr-namespace:MHRArmorBuilder.Views"
+                             d:DataContext="{d:DesignInstance Type=vm:MainViewModel, IsDesignTimeCreatable=True}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type vm:ConstraintViewModel}">
+                <views:ConstraintView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:ResultViewModel}">
+                <views:ResultView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </Window.Style>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ContentControl Content="{Binding ConstraintViewModel }"/>
+        <GridSplitter Grid.Row="1"/>
+        <ContentControl Grid.Row="2" Content="{Binding ResultViewModel }"/>
+    </Grid>
+</adonisControls:AdonisWindow>
